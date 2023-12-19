@@ -149,8 +149,8 @@
                         <div class="col-lg-2 d-flex col-md col-sm">
                             <button type="submit"
                                 class="tombol btn btn-primary my-2 w-100 d-flex justify-content-center align-items-center"
-                                id="tombolForm" disabled>
-                                <h3 class="d-lg-block fw-bold">Lanjutkan</h3>
+                                id="tombolForm">
+                                <h3 class="d-lg-block fw-bold" style="color:white;">Lanjutkan</h3>
                             </button>
                         </div>
                     @endauth

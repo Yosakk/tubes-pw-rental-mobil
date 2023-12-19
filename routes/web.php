@@ -52,7 +52,12 @@ Route::get('/cara-order', function () {
     return view('User.caraOrder.cara-order');
 });
 Route::get('/ulasan', [UlasanController::class, 'indexUlasan'])->name('ulasan');
-Route::get('/list-mobil', [MobilController::class, 'indexMobil'])->name('list-mobil');
+
+//user
+Route::get('/dataMobil', [MobilController::class, 'indexMobil'])->name('dataMobil');
+
+
+
 Route::get('/list-mobil/cari', [MobilController::class, 'cariMobil'])->name('cari-mobil');
 
 //route untuk customer
@@ -80,6 +85,15 @@ Route::group(['middleware' => ['auth', 'cekrole:admin']], function () {
     Route::get('/profileAdmin', function () {
         return view('Admin.profileAdmin.profile');
     });
+    
+
+    //mobil
+    Route::get('/data-mobil', [MobilController::class, 'indexMobilAdmin'])->name('data-mobil');
+    Route::post('/admin/data-mobil/store', [MobilController::class, 'store'])->name('admin.data-mobil.store');
+    Route::get('/admin/data-mobil/create', [MobilController::class, 'create'])->name('admin.create');
+    Route::get('/admin/edit-mobil/edit/{id}', [MobilController::class, 'update'])->name('admin.update');
+    Route::put('/admin/edit-mobil/edit/{id}', [MobilController::class, 'edit'])->name('admin.edit');
+    Route::delete('/admin/delete/{id}', [MobilController::class, 'destroy'])->name('admin.delete');
 
     Route::post('/profile/updatePhoto/{id}', [UserController::class, 'updatePhoto'])->name('profile.updatePhoto');
     Route::post('/profile/updatePassword/{id}', [UserController::class, 'updatePassword'])->name('profile.updatePassword');

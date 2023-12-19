@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Mobil;
+use Storage;
 
 class MobilController extends Controller
 {
@@ -11,6 +12,12 @@ class MobilController extends Controller
     {
         $mobil = Mobil::latest()->paginate(6);
         return view('User.mobil.list-mobil', compact('mobil'));
+    }
+
+    public function indexMobilAdmin()
+    {
+        $mobil = Mobil::latest()->paginate(6);
+        return view('Admin.dataMobil.data-mobil', compact('mobil'));
     }
 
     public function cariMobil(Request $request)
@@ -28,6 +35,109 @@ class MobilController extends Controller
             ->orWhere('tarif', 'like', "%$cari%")
             ->paginate(6);
         return view('User.mobil.list-mobil', compact('mobil'));
+    }
+
+    public function create()
+    {
+        return view('Admin.dataMobil.input-mobil');
+    }
+
+    public function store(Request $request)
+    {
+
+        $request->validate([
+            'registerFoto' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'registerModel' => 'required',
+            'registerBahanBakar' => 'required',
+            'registerTransmisi' => 'required',
+            'registerKursi' => 'required',
+            'registerTahun' => 'required',
+            'registerWarna' => 'required',
+            'registerTarif' => 'required',
+            'registerStatus' => 'required',
+        ]);
+
+
+        $image = time() . '.' . $request->registerFoto->extension();
+        Storage::put('public/' . $image,
+            file_get_contents($request->registerFoto->getRealPath()));
+        $imageUrl = Storage::url($image);
+
+        Mobil::create([
+            'gambar' => env('APP_URL') . $imageUrl,
+            'model' => $request->registerModel,
+            'bahan_bakar' => $request->registerBahanBakar,
+            'transmisi' => $request->registerTransmisi,
+            'jumlah_kursi' => $request->registerKursi,
+            'tahun_produksi' => $request->registerTahun,
+            'warna' => $request->registerWarna,
+            'tarif' => $request->registerTarif,
+            'status' => $request->registerStatus
+        ]);
+        return redirect()->route('data-mobil');
+
+    }
+
+    public function update(string $id)
+    {
+        $mobil = Mobil::findOrfail($id);
+        return view('Admin.dataMobil.edit-mobil', compact('mobil'));
+    }
+
+    public function edit(Request $request, $id)
+    {
+        
+        $request->validate([
+            'registerModel' => 'required',
+            'registerBahanBakar' => 'required',
+            'registerTransmisi' => 'required',
+            'registerKursi' => 'required',
+            'registerTahun' => 'required',
+            'registerWarna' => 'required',
+            'registerTarif' => 'required',
+        ]);
+        
+        $mobil = Mobil::findOrfail($id);
+        
+        if (!$request->registerFoto) {
+            
+            $mobil->update([
+                'model' => $request->registerModel,
+                'bahan_bakar' => $request->registerBahanBakar,
+                'transmisi' => $request->registerTransmisi,
+                'jumlah_kursi' => $request->registerKursi,
+                'tahun_produksi' => $request->registerTahun,
+                'warna' => $request->registerWarna,
+                'tarif' => $request->registerTarif,
+                'status' => $request->registerStatus
+            ]);
+            
+        } else {
+            $image = time() . '.' . $request->registerFoto->extension();
+            Storage::put('public/' . $image,
+                file_get_contents($request->registerFoto->getRealPath()));
+            $imageUrl = Storage::url($image);
+
+            $mobil->update([
+                'gambar' => env('APP_URL') . $imageUrl,
+                'model' => $request->registerModel,
+                'bahan_bakar' => $request->registerBahanBakar,
+                'transmisi' => $request->registerTransmisi,
+                'jumlah_kursi' => $request->registerKursi,
+                'tahun_produksi' => $request->registerTahun,
+                'warna' => $request->registerWarna,
+                'tarif' => $request->registerTarif,
+                'status' => $request->registerStatus
+            ]);
+        }
+        return redirect()->route('data-mobil');
+    }
+
+    public function destroy($id)
+    {
+        $mobil = Mobil::findOrfail($id);
+        $mobil->delete();
+        return redirect()->route('data-mobil');
     }
 
     //fungsi freestyle

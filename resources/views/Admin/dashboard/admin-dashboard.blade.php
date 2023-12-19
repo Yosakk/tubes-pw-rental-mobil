@@ -64,7 +64,7 @@
                             <a href="{{ url('/dataUser') }}" class="nav-link">Data User</a>
                         </li>
                         <li class="nav-item d-lg-none d-md-block d-sm-block">
-                            <a href="{{ url('/dataMobil') }}" class="nav-link">Data Mobil</a>
+                            <a href="{{ url('/data-mobil') }}" class="nav-link">Data Mobil</a>
                         </li>
                         <li class="nav-item d-lg-none d-md-block d-sm-block">
                             <a href="{{ url('/dataTransaksi') }}" class="nav-link">Data Transaksi</a>
@@ -126,7 +126,7 @@
                         <a href="{{ url('/landing-page-admin') }}" class="h5 btn btn-light">Home</a>
                         <a href="{{ url('/profileAdmin') }}" class="h5 btn btn-light">Profile</a>
                         <a href="{{ url('/dataUser') }}" class="h5 btn btn-light">Data User</a>
-                        <a href="{{ url('/dataMobil') }}" class="h5 btn btn-light">Data Mobil</a>
+                        <a href="{{ url('/data-mobil') }}" class="h5 btn btn-light">Data Mobil</a>
                         <a href="{{ url('/dataTransaksi') }}" class="h5 btn btn-light">Data Transaksi</a>
                     </div>
                     <div class="justify-content-end d-flex">
